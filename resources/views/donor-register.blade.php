@@ -3,17 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Become a Donor - LifeSaver</title>
+    <title>Donor Registration</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-br from-red-50 via-white to-gray-100 min-h-screen flex items-center justify-center py-10 px-4">
-    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-4xl border border-red-100">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-10">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl">
         <a href="/" class="text-red-600 hover:text-red-700 font-medium transition">Back to Home</a>
-        <div class="text-center mb-8">
-            <span class="inline-block bg-red-100 text-red-700 text-sm font-semibold px-4 py-1 rounded-full mb-3">Donor Form</span>
-            <h2 class="text-3xl font-bold text-red-700">Become a Blood Donor</h2>
-            <p class="text-gray-600 mt-2">Fill in your details so the blood bank team can contact you when your blood group is needed.</p>
-        </div>
+        <h2 class="text-2xl font-bold text-center text-red-700 mb-6">Donor Registration</h2>
 
         @if (session('success'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -44,27 +40,27 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label for="first_name" class="block text-sm font-medium text-gray-700">First Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="first_name" id="first_name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('first_name') }}" placeholder="Enter first name" required>
+                        <input type="text" name="first_name" id="first_name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('first_name') }}" required>
                     </div>
                     <div>
                         <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="last_name" id="last_name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('last_name') }}" placeholder="Enter last name" required>
+                        <input type="text" name="last_name" id="last_name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('last_name') }}" required>
                     </div>
                     <div>
                         <label for="mobile_number" class="block text-sm font-medium text-gray-700">Mobile Number <span class="text-red-500">*</span></label>
-                        <input type="text" name="mobile_number" id="mobile_number" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('mobile_number') }}" placeholder="Example: 3065551234" pattern="[0-9+()\-\s]{7,20}" required>
+                        <input type="text" name="mobile_number" id="mobile_number" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('mobile_number') }}" required>
                     </div>
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
-                        <input type="email" name="email" id="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('email') }}" placeholder="example@email.com" required>
+                        <input type="email" name="email" id="email" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('email') }}" required>
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-medium text-gray-700">Password <span class="text-red-500">*</span></label>
-                        <input type="password" name="password" id="password" minlength="8" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" placeholder="Minimum 8 characters" required>
+                        <input type="password" name="password" id="password" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
                     </div>
                     <div>
                         <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password <span class="text-red-500">*</span></label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" minlength="8" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" placeholder="Confirm your password" required>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
                     </div>
                     <div>
                         <label for="gender" class="block text-sm font-medium text-gray-700">Gender <span class="text-red-500">*</span></label>
@@ -77,7 +73,7 @@
                     </div>
                     <div>
                         <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
-                        <input type="date" name="date_of_birth" id="date_of_birth" max="{{ now()->subYears(18)->toDateString() }}" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('date_of_birth') }}" required>
+                        <input type="date" name="date_of_birth" id="date_of_birth" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('date_of_birth') }}" required>
                     </div>
                     <div class="md:col-span-2">
                         <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
@@ -119,13 +115,9 @@
                 </div>
             </fieldset>
 
-            <div class="bg-red-50 border border-red-100 text-red-800 rounded-lg p-4 mb-6 text-sm">
-                Please make sure your contact information is correct. The blood bank team may use it to contact you for donation camp updates.
-            </div>
-
             <div class="flex justify-center">
                 <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                    Submit Donor Registration
+                    Register as Donor
                 </button>
             </div>
         </form>
