@@ -14,9 +14,6 @@ return new class extends Migration
         Schema::create('blood_groups', function (Blueprint $table) {
             $table->id();
             $table->string('group_name')->unique();
-            $table->string('code', 5)->unique()->nullable();
-            $table->text('description')->nullable();
-            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }
