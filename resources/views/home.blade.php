@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life Saver - Blood Bank Management System</title>
+    <title>Blood Link - Blood Bank Management System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -85,21 +85,18 @@
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-6">
                     <div class="inline-block px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium">
-                        🩸 Real-time blood availability
+                           🩸 Saving Lives Together
                     </div>
                     <h1 class="text-5xl md:text-6xl font-bold leading-tight">
                         Every Drop <br/>
                         <span class="text-red-200">Counts</span>
                     </h1>
                     <p class="text-xl text-red-100">
-                        Connect patients, donors, and blood bank staff in one secure platform. Search available blood units, request urgent support, and register as a donor in minutes.
+                        Join our mission to save lives through blood donation. Your single donation can save up to three lives.
                     </p>
                     <div class="flex flex-wrap gap-4 pt-4">
-                        <a href="{{ route('donor.register.form') }}" class="px-8 py-4 bg-white text-red-700 font-bold rounded-lg hover:bg-red-50 transition shadow-xl focus-ring">
+                        <a href="{{ route('donor.register.form') }}" class="px-8 py-4 bg-red-800 text-white font-bold rounded-lg hover:bg-red-900 transition border-2 border-white/20">
                             Become a Donor
-                        </a>
-                        <a href="{{ route('blood.request.form') }}" class="px-8 py-4 bg-red-800 text-white font-bold rounded-lg hover:bg-red-900 transition border-2 border-white/20 focus-ring">
-                            Request Blood
                         </a>
                     </div>
                     <div class="flex items-center space-x-6 pt-4 text-sm">
@@ -113,7 +110,7 @@
                             <svg class="w-5 h-5 text-green-300" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                             </svg>
-                            <span>Fast Blood Search</span>
+                            <span>24/7 Available</span>
                         </div>
                     </div>
                 </div>
@@ -136,10 +133,7 @@
                                 </div>
                             </div>
                             <div class="bg-white rounded-xl p-6 space-y-3">
-                                <div class="flex items-center justify-between gap-3">
-                                    <h3 class="text-gray-800 font-bold text-lg">Quick Blood Search</h3>
-                                    <span class="text-xs font-semibold text-red-600 bg-red-50 px-3 py-1 rounded-full">Live inventory</span>
-                                </div>
+                              <h3 class="text-gray-800 font-bold text-lg">Quick Blood Search</h3>
                                 <form action="{{ route('blood.handleSearch') }}" method="POST" class="space-y-2">
                                     @csrf
                                     <select name="blood_group_id" class="w-full px-4 py-3 text-gray-800 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500" required>
@@ -151,12 +145,12 @@
                                     <button type="submit" class="w-full px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition">
                                         Search Available Units
                                     </button>
-                                    <p class="text-xs text-gray-500 text-center">Search results are based on approved, ready-for-issue blood units.</p>
                                 </form>
                                 @if(isset($searchedBloodGroup))
                                     <div class="mt-4 p-4 rounded-lg text-center {{ $availableUnitsCount > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
                                         @if($availableUnitsCount > 0)
-                                            <p class="font-semibold text-lg">{{ $availableUnitsCount ?? 0 }} units of {{ $searchedBloodGroup->group_name ?? 'selected blood group' }} available!</p>
+                                            <p class="font-semibold text-lg">{{ $availableUnitsCount }} units of {{ $searchedBloodGroup->group_name ?? 'selected blood group' }} available!</p>
+
                                             <p class="text-sm">Contact us for immediate transfusion.</p>
                                         @else
                                             <p class="font-semibold text-lg">No units of {{ $searchedBloodGroup->group_name ?? 'selected blood group' }} available.</p>
@@ -181,14 +175,14 @@
                     <svg class="w-12 h-12 mx-auto text-red-600 blood-drop" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
-                    <h3 class="text-4xl font-bold text-red-600">{{ $availableUnitsCount ?? 0 }}</h3>
+                    <h3 class="text-4xl font-bold text-red-600">{{ $availableUnitsCount }}</h3>
                     <p class="text-gray-600 font-medium">Available Units</p>
                 </div>
                 <div class="text-center space-y-2 card-hover bg-gradient-to-br from-red-50 to-white p-6 rounded-xl border border-red-100">
                     <svg class="w-12 h-12 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
-                    <h3 class="text-4xl font-bold text-red-600">{{ isset($latestCamps) ? $latestCamps->count() : 0 }}</h3>
+                    <h3 class="text-4xl font-bold text-red-600">{{ $latestCamps->count() }}</h3>
                     <p class="text-gray-600 font-medium">Upcoming Camps</p>
                 </div>
                 <div class="text-center space-y-2 card-hover bg-gradient-to-br from-red-50 to-white p-6 rounded-xl border border-red-100">
@@ -209,33 +203,6 @@
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-6">
-            <div class="text-center mb-12">
-                <span class="inline-block px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-bold mb-4">Simple Process</span>
-                <h2 class="text-4xl font-bold text-gray-800 mb-4">How LifeSaver Works</h2>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">The system supports two main user roles: donors who provide blood and patients who request blood when it is needed.</p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover">
-                    <div class="w-12 h-12 bg-red-600 text-white rounded-xl flex items-center justify-center font-bold text-xl mb-5">1</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Search Blood Units</h3>
-                    <p class="text-gray-600">Users can check availability by blood group before submitting a request, reducing waiting time during urgent cases.</p>
-                </div>
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover">
-                    <div class="w-12 h-12 bg-red-600 text-white rounded-xl flex items-center justify-center font-bold text-xl mb-5">2</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Register or Request</h3>
-                    <p class="text-gray-600">Donors can register their details, while patients can submit blood requests with required information and blood type.</p>
-                </div>
-                <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 card-hover">
-                    <div class="w-12 h-12 bg-red-600 text-white rounded-xl flex items-center justify-center font-bold text-xl mb-5">3</div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Admin Verification</h3>
-                    <p class="text-gray-600">Blood bank staff review requests, manage camps, update inventory, and ensure only safe units are issued.</p>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- Donation Types -->
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-6">
@@ -413,14 +380,14 @@
 
     <!-- Upcoming Camps -->
     <section id="upcoming-camps" class="py-16 bg-gray-50">
+           <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <span class="inline-block px-4 py-2 bg-red-100 text-red-700 rounded-full text-sm font-bold mb-4">Community Camps</span>
                 <h2 class="text-4xl font-bold text-gray-800 mb-4">Upcoming Blood Donation Camps</h2>
                 <p class="text-gray-600 text-lg">Find a camp near you and schedule your donation</p>
             </div>
-            @if(!isset($latestCamps) || $latestCamps->isEmpty())
-                <p class="text-center text-gray-600 text-lg">No upcoming camps found. Please check back later!</p>
+            @if($latestCamps->isEmpty())
+            <p class="text-center text-gray-600 text-lg">No upcoming camps found. Please check back later!</p>
             @else
                 <div class="grid md:grid-cols-3 gap-8">
                     @foreach ($latestCamps as $camp)
@@ -516,8 +483,8 @@
                     <h4 class="text-white font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="#" class="hover:text-red-400 transition">About Us</a></li>
-                        <li><a href="/" class="hover:text-red-400 transition">Find Blood</a></li>
-                        <li><a href="#upcoming-camps" class="hover:text-red-400 transition">Donation Camps</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition">Find Blood</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition">Donation Camps</a></li>
                         <li><a href="#" class="hover:text-red-400 transition">FAQs</a></li>
                     </ul>
                 </div>
@@ -525,7 +492,7 @@
                     <h4 class="text-white font-semibold mb-4">Resources</h4>
                     <ul class="space-y-2 text-sm">
                         <li><a href="#" class="hover:text-red-400 transition">Eligibility Checker</a></li>
-                        <li><a href="#main-content" class="hover:text-red-400 transition">Donation Process</a></li>
+                        <li><a href="#" class="hover:text-red-400 transition">Donation Process</a></li>
                         <li><a href="#" class="hover:text-red-400 transition">Health Guidelines</a></li>
                         <li><a href="#" class="hover:text-red-400 transition">Privacy Policy</a></li>
                     </ul>
@@ -570,17 +537,5 @@
             </div>
         </div>
     </footer>
-    <script>
-        const mobileMenuButton = document.getElementById('mobileMenuButton');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        if (mobileMenuButton && mobileMenu) {
-            mobileMenuButton.addEventListener('click', () => {
-                const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-                mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
-                mobileMenu.classList.toggle('hidden');
-            });
-        }
-    </script>
 </body>
 </html>
