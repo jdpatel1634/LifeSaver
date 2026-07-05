@@ -15,10 +15,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public const ROLE_ADMIN = 'admin';
-    public const ROLE_DONOR = 'donor';
-    public const ROLE_PATIENT = 'patient';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -52,41 +48,6 @@ class User extends Authenticatable
         'password' => 'hashed',
         'is_super_admin' => 'boolean',
     ];
-
-    /**
-     * Get all supported user roles.
-     *
-     * @return array<int, string>
-     */
-    public static function roles(): array
-    {
-        return [
-            self::ROLE_ADMIN,
-            self::ROLE_DONOR,
-            self::ROLE_PATIENT,
-        ];
-    }
-
-    /**
-     * Check if the user has the given role.
-     *
-     * @param string $role
-     * @return bool
-     */
-    public function hasRole(string $role): bool
-    {
-        return $this->role === $role;
-    }
-
-    /**
-     * Get a readable display name for the user.
-     *
-     * @return string
-     */
-    public function displayName(): string
-    {
-        return $this->name ?: $this->email;
-    }
 
     /**
      * Check if the user has an 'admin' role.
@@ -126,16 +87,6 @@ class User extends Authenticatable
     public function isSuperAdmin(): bool
     {
         return (bool) $this->is_super_admin;
-    }
-
-    /**
-     * Check if the user can access staff-level features.
-     *
-     * @return bool
-     */
-    public function isStaffMember(): bool
-    {
-        return $this->isAdmin() || $this->isSuperAdmin();
     }
 
     /**
