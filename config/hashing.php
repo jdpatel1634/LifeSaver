@@ -29,7 +29,7 @@ return [
     */
 
     'bcrypt' => [
-        'rounds' => env('BCRYPT_ROUNDS', env('APP_ENV') === 'testing' ? 4 : 12),
+        'rounds' => env('BCRYPT_ROUNDS', 12),
         'verify' => env('HASH_VERIFY', true),
     ],
 
@@ -50,17 +50,5 @@ return [
         'time' => env('ARGON_TIME', 4),
         'verify' => env('HASH_VERIFY', true),
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Password Rehashing
-    |--------------------------------------------------------------------------
-    |
-    | This option allows the application to rehash user passwords automatically
-    | after login when the configured hashing cost changes.
-    |
-    */
-
-    'rehash_on_login' => env('HASH_REHASH_ON_LOGIN', true),
 
 ];
