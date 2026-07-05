@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\BloodRequestController;
-use App\Http\Controllers\DonorRegistrationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -17,10 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index')->name('home');
-    Route::post('/find-blood', 'handleSearch')->name('blood.handleSearch');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
