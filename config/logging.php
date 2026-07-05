@@ -54,8 +54,8 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => explode(',', env('LOG_STACK_CHANNELS', 'single')),
-            'ignore_exceptions' => env('LOG_IGNORE_EXCEPTIONS', false),
+            'channels' => ['single'],
+            'ignore_exceptions' => false,
         ],
 
         'single' => [
@@ -69,15 +69,15 @@ return [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
             'level' => env('LOG_LEVEL', 'debug'),
-            'days' => env('LOG_DAILY_DAYS', 14),
+            'days' => 14,
             'replace_placeholders' => true,
         ],
 
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => env('LOG_SLACK_USERNAME', 'LifeSaver Log'),
-            'emoji' => env('LOG_SLACK_EMOJI', ':rotating_light:'),
+            'username' => 'Laravel Log',
+            'emoji' => ':boom:',
             'level' => env('LOG_LEVEL', 'critical'),
             'replace_placeholders' => true,
         ],
