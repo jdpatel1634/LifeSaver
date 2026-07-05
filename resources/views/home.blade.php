@@ -37,49 +37,9 @@
         .blood-type-badge {
             background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
         }
-
-        .hero-pattern {
-            background-image:
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.16) 0, transparent 28%),
-                radial-gradient(circle at 85% 15%, rgba(255,255,255,0.10) 0, transparent 24%),
-                radial-gradient(circle at 70% 90%, rgba(255,255,255,0.12) 0, transparent 30%);
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.16);
-            border: 1px solid rgba(255, 255, 255, 0.24);
-            box-shadow: 0 24px 70px rgba(127, 29, 29, 0.35);
-        }
-
-        .skip-link {
-            position: absolute;
-            left: -999px;
-            top: 12px;
-            z-index: 100;
-            background: #fff;
-            color: #991B1B;
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-weight: 700;
-        }
-
-        .skip-link:focus {
-            left: 16px;
-        }
-
-        .focus-ring:focus {
-            outline: 3px solid rgba(220, 38, 38, 0.45);
-            outline-offset: 3px;
-        }
-
-        .status-pill {
-            background: rgba(255, 255, 255, 0.18);
-            border: 1px solid rgba(255, 255, 255, 0.24);
-        }
     </style>
 </head>
 <body class="antialiased bg-gray-50">
-    <a href="#main-content" class="skip-link">Skip to main content</a>
     <!-- Navigation -->
     <nav class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-6 py-4">
@@ -116,17 +76,10 @@
                     @endif
                 </div>
             </div>
-            <div id="mobileMenu" class="hidden md:hidden pt-4 mt-4 border-t border-gray-100 space-y-2">
-                <a href="/" class="block px-4 py-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 font-medium">Home</a>
-                <a href="/request-blood" class="block px-4 py-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 font-medium">Request Blood</a>
-                <a href="/register/donor" class="block px-4 py-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 font-medium">Register as Donor</a>
-                <a href="#upcoming-camps" class="block px-4 py-3 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 font-medium">Donation Camps</a>
-            </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <main id="main-content">
     <section class="gradient-bg hero-pattern text-white py-20">
         <div class="container mx-auto px-6">
             <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -545,7 +498,6 @@
         </div>
     </section>
 
-    </main>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 py-12">
