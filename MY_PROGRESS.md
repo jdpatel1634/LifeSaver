@@ -16,5 +16,11 @@
 - Connected the homepage route.
 - Prepared the project for the first local boot test.
 
+## Day 3
+- Added BloodRequestController with create method.
+- Added DonorRegistrationController with create method.
+- Connected public form pages to controller routes.
+- Prepared backend structure for saving form submissions on Day 4.
+
 ## Current Status
 The project foundation is ready for frontend, database, and local boot testing.
