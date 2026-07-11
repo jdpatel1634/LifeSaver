@@ -79,7 +79,7 @@
                         Join our mission to save lives through blood donation. Your single donation can save up to three lives.
                     </p>
                     <div class="flex flex-wrap gap-4 pt-4">
-                        <a href="{{ route('donor.register') }}" class="px-8 py-4 bg-red-800 text-white font-bold rounded-lg hover:bg-red-900 transition border-2 border-white/20">
+                        <a href="{{ route('donor.register.form') }}" class="px-8 py-4 bg-red-800 text-white font-bold rounded-lg hover:bg-red-900 transition border-2 border-white/20">
                             Become a Donor
                         </a>
                     </div>
@@ -118,7 +118,7 @@
                             </div>
                             <div class="bg-white rounded-xl p-6 space-y-3">
                                 <h3 class="text-gray-800 font-bold text-lg">Quick Blood Search</h3>
-                                <form action="{{ route('blood.search') }}" method="POST" class="space-y-2">
+                                <form action="{{ route('blood.handleSearch') }}" method="POST" class="space-y-2">
                                     @csrf
                                     <select name="blood_group_id" class="w-full px-4 py-3 text-gray-800 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500" required>
                                         <option value="">Select Blood Type</option>
@@ -138,7 +138,7 @@
                                         @else
                                             <p class="font-semibold text-lg">No units of {{ $searchedBloodGroup->group_name ?? 'selected blood group' }} available.</p>
                                             <p class="text-sm">Consider submitting a blood request.</p>
-                                            <a href="{{ route('blood.request') }}" class="mt-2 inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold">Submit Request</a>
+                                            <a href="{{ route('blood.request.form') }}" class="mt-2 inline-block text-blue-600 hover:text-blue-800 text-sm font-semibold">Submit Request</a>
                                         @endif
                                     </div>
                                 @endif
