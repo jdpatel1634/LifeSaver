@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BloodRequest;
+use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BloodRequestController extends Controller
 {
@@ -35,7 +38,7 @@ class BloodRequestController extends Controller
      */
     public function submitForm(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'mobile_number' => 'nullable|string|max:20',
@@ -51,8 +54,34 @@ class BloodRequestController extends Controller
             'description' => 'nullable|string',
         ]);
 
+        DB::transaction(function () use ($validated) {
+            $patient = Patient::firstOrCreate(
+                ['email' => $validated['email']],
+                [
+                    'first_name' => $validated['first_name'],
+                    'last_name' => $validated['last_name'],
+                    'mobile_number' => $validated['mobile_number'] ?? null,
+                    'gender' => $validated['gender'],
+                    'date_of_birth' => $validated['date_of_birth'],
+                    'address' => $validated['address'] ?? null,
+                    'hospital_name' => $validated['hospital_name'],
+                ]
+            );
+
+            BloodRequest::create([
+                'patient_id' => $patient->id,
+                'blood_group_id' => $validated['blood_group_id'],
+                'units_requested' => $validated['units_requested'],
+                'urgency_level' => $validated['urgency_level'],
+                'request_date' => now(),
+                'required_by_date' => $validated['required_by_date'] ?? null,
+                'status' => 'pending',
+                'description' => $validated['description'] ?? null,
+            ]);
+        });
+
         return redirect()
             ->back()
-            ->with('success', 'Blood request submitted successfully. Database saving will be connected in the next version.');
+            ->with('success', 'Blood request submitted successfully and saved to the database.');
     }
 }
