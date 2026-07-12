@@ -43,19 +43,13 @@ This project is being developed as part of CS 476 - Software Development.
 
 🚧 Project under development.
 
-Development is being completed incrementally using Agile methodology.
-
----
-
-## Repository Structure
-
-Project files are being uploaded module-by-module instead of one large upload.
+First deployed version is hosted on Render.
 
 ---
 
 ## Deployment
 
-Deployment URL will be added after the first successful deployment.
+https://lifesaver-umez.onrender.com
 
 ---
 
