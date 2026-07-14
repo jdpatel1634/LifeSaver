@@ -80,27 +80,36 @@
                         <textarea name="address" id="address" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500">{{ old('address') }}</textarea>
                     </div>
                     <div>
-                        <label for="state_id" class="block text-sm font-medium text-gray-700">State <span class="text-red-500">*</span></label>
-                        <select name="state_id" id="state_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
-                            <option value="">Select State</option>
-                            @foreach ($states as $state)
-                                <option value="{{ $state->id }}" {{ old('state_id') == $state->id ? 'selected' : '' }}>
-                                    {{ $state->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div>
-                        <label for="city_id" class="block text-sm font-medium text-gray-700">City <span class="text-red-500">*</span></label>
-                        <select name="city_id" id="city_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
-                            <option value="">Select City</option>
-                            @foreach ($cities as $city)
-                                <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>
-                                    {{ $city->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
+    <label for="state_id" class="block text-sm font-medium text-gray-700">
+        Province <span class="text-red-500">*</span>
+    </label>
+    <select name="state_id" id="state_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
+        <option value="">Select Province</option>
+        @foreach ($states as $state)
+            <option value="{{ $state->id }}" @selected(old('state_id') == $state->id)>
+                {{ $state->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
+<div>
+    <label for="city_id" class="block text-sm font-medium text-gray-700">
+        City <span class="text-red-500">*</span>
+    </label>
+    <select name="city_id" id="city_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
+        <option value="">Select City</option>
+        @foreach ($cities as $city)
+            <option 
+                value="{{ $city->id }}"
+                data-state-id="{{ $city->state_id }}"
+                @selected(old('city_id') == $city->id)
+            >
+                {{ $city->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
                     <div class="md:col-span-2">
                         <label for="blood_group_id" class="block text-sm font-medium text-gray-700">Blood Group <span class="text-red-500">*</span></label>
                         <select name="blood_group_id" id="blood_group_id" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
@@ -122,5 +131,44 @@
             </div>
         </form>
     </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const stateSelect = document.getElementById('state_id');
+        const citySelect = document.getElementById('city_id');
+
+        if (!stateSelect || !citySelect) {
+            return;
+        }
+
+        const allCityOptions = Array.from(citySelect.querySelectorAll('option')).filter(function (option) {
+            return option.value !== '';
+        });
+
+        function filterCities() {
+            const selectedStateId = stateSelect.value;
+            const oldCityId = "{{ old('city_id') }}";
+
+            citySelect.innerHTML = '<option value="">Select City</option>';
+
+            allCityOptions.forEach(function (option) {
+                if (option.dataset.stateId === selectedStateId) {
+                    const clonedOption = option.cloneNode(true);
+
+                    if (oldCityId && clonedOption.value === oldCityId) {
+                        clonedOption.selected = true;
+                    }
+
+                    citySelect.appendChild(clonedOption);
+                }
+            });
+        }
+
+        stateSelect.addEventListener('change', function () {
+            filterCities();
+        });
+
+        filterCities();
+    });
+</script>
 </body>
 </html>
