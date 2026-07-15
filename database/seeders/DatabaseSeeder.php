@@ -260,5 +260,14 @@ class DatabaseSeeder extends Seeder
                 ]);
             }
         }
+
+        User::updateOrCreate(
+            ['email' => 'admin77@gmail.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('asdfasdf'),
+                'email_verified_at' => now(),
+            ]
+        );
     }
 }
