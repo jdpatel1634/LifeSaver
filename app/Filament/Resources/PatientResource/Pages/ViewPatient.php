@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\DonorResource\Pages;
+namespace App\Filament\Resources\PatientResource\Pages;
 
 use App\Filament\Resources\PatientResource;
 use Filament\Actions;
