@@ -56,8 +56,18 @@
                     <a href="/register/donor" class="text-gray-700 hover:text-red-600 font-medium transition">Register as Donor</a>
                 </div>
                 <div class="flex items-center space-x-3">
-                    <a href="/login" class="px-5 py-2 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition">Login</a>
-                    <a href="/request-blood" class="px-5 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition shadow-md">Register</a>
+                    @if(auth()->check())
+                        @if(auth()->user()->isAdmin())
+                            <a href="/admin" class="px-5 py-2 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition">Admin Dashboard</a>
+                        @elseif(auth()->user()->isDonor())
+                            <a href="/donor/dashboard" class="px-5 py-2 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition">Donor Dashboard</a>
+                        @elseif(auth()->user()->isPatient())
+                            <a href="/patient" class="px-5 py-2 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition">Patient Dashboard</a>
+                        @endif
+                    @else
+                        <a href="/login" class="px-5 py-2 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition">Login</a>
+                        <a href="/request-blood" class="px-5 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition shadow-md">Register</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -358,6 +368,74 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Camps -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">Upcoming Blood Donation Camps</h2>
+                <p class="text-gray-600 text-lg">Find a camp near you and schedule your donation</p>
+            </div>
+            @if($latestCamps->isEmpty())
+                <p class="text-center text-gray-600 text-lg">No upcoming camps found. Please check back later!</p>
+            @else
+                <div class="grid md:grid-cols-3 gap-8">
+                    @foreach ($latestCamps as $camp)
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition card-hover border border-gray-100">
+                            <div class="bg-gradient-to-r from-red-600 to-red-700 p-6 text-white">
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">Upcoming</span>
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-1">{{ \Carbon\Carbon::parse($camp->camp_date)->format('M d, Y') }}</h3>
+                                <p class="text-red-100">{{ \Carbon\Carbon::parse($camp->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($camp->end_time)->format('h:i A') }}</p>
+                            </div>
+                            <div class="p-6">
+                                <h4 class="text-xl font-bold text-gray-800 mb-3">{{ $camp->name }}</h4>
+                                <div class="space-y-3 mb-6">
+                                    <div class="flex items-start space-x-3">
+                                        <svg class="w-5 h-5 text-red-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        </svg>
+                                        <div>
+                                            <p class="text-gray-800 font-medium">{{ $camp->address }}, {{ $camp->city->name ?? '' }}, {{ $camp->state->name ?? '' }}</p>
+                                            <p class="text-gray-500 text-sm">{{ Str::limit($camp->description, 50) }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start space-x-3">
+                                        <svg class="w-5 h-5 text-red-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                        </svg>
+                                        <div>
+                                            <p class="text-gray-800 font-medium">{{ $camp->organizer }}</p>
+                                            <p class="text-gray-500 text-sm">Organizer</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                    <span class="text-sm text-gray-500">Available: {{ $camp->bloodUnits->where('status', 'ready_for_issue')->where('serology_test_status', 'passed')->count() }} units</span>
+                                    <a href="#" class="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition text-sm">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+            {{-- <div class="text-center mt-10">
+                <a href="#" class="inline-flex items-center space-x-2 text-red-600 font-semibold hover:text-red-700">
+                    <span>View All Camps</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                    </svg>
+                </a>
+            </div> --}}
         </div>
     </section>
 
