@@ -16,22 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $bloodGroups = [
-            'A+',
-            'A-',
-            'B+',
-            'B-',
-            'O+',
-            'O-',
-            'AB+',
-            'AB-',
-        ];
-
-        foreach ($bloodGroups as $group) {
-            BloodGroup::firstOrCreate([
-                'group_name' => $group,
-            ]);
-        }
+       
 
         $provincesWithCities = [
             'Alberta' => [
