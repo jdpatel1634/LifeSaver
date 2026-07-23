@@ -60,8 +60,8 @@ class StaffRelationManager extends RelationManager
                                 ->maxLength(255)
                                 ->label('Role in Camp'),
                         ])
-                    ]),
-            ])
+                    ])
+            
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DetachAction::make(),
