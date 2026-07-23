@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Route;
 | Web Routes
 |--------------------------------------------------------------------------
 |
-| These routes define the public pages, authenticated profile routes,
-| blood request workflow, donor registration workflow, and authentication
-| routes for the LifeSaver blood bank application.
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
 |
 */
 
@@ -26,7 +26,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 Route::post('/find-blood', [HomeController::class, 'handleSearch'])->name('blood.handleSearch');
 
 Route::get('/request-blood', [App\Http\Controllers\BloodRequestController::class, 'showForm'])->name('blood.request.form');
@@ -35,17 +34,4 @@ Route::post('/request-blood', [App\Http\Controllers\BloodRequestController::clas
 Route::get('/register/donor', [App\Http\Controllers\DonorRegistrationController::class, 'showRegistrationForm'])->name('donor.register.form');
 Route::post('/register/donor', [App\Http\Controllers\DonorRegistrationController::class, 'registerDonor'])->name('donor.register.submit');
 
-// for temporary purpose
-use Illuminate\Support\Facades\Artisan;
-
-Route::get('/setup-database-now', function () {
-    Artisan::call('migrate:fresh', [
-        '--seed' => true,
-        '--force' => true,
-    ]);
-
-    return 'Database migrated and seeded successfully.';
-});
-
 require __DIR__.'/auth.php';
-
