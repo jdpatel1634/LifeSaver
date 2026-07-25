@@ -182,14 +182,14 @@
                     <svg class="w-12 h-12 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                     </svg>
-                    <h3 class="text-4xl font-bold text-red-600">50+</h3>
+                    <h3 class="text-4xl font-bold text-red-600">{{ $bloodBanksCount }}</h3>
                     <p class="text-gray-600 font-medium">Blood Banks</p>
                 </div>
                 <div class="text-center space-y-2 card-hover bg-gradient-to-br from-red-50 to-white p-6 rounded-xl border border-red-100">
                     <svg class="w-12 h-12 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
-                    <h3 class="text-4xl font-bold text-red-600">15+</h3>
+                    <h3 class="text-4xl font-bold text-red-600">{{ $campsThisMonthCount }}</h3>
                     <p class="text-gray-600 font-medium">Camps This Month</p>
                 </div>
             </div>
@@ -524,7 +524,7 @@
                 </div>
             </div>
             <div class="border-t border-gray-800 pt-8 text-center text-sm">
-                <p>&copy; 2025 LifeSaver Blood Bank Management System. All rights reserved.</p>
+                <p>&copy; 2026 LifeSaver Blood Bank Management System. All rights reserved.</p>
             </div>
         </div>
     </footer>
