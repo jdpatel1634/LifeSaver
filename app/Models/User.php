@@ -10,10 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
