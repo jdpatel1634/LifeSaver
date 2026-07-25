@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use App\Providers\Filament\AdminPanelProvider;
 use App\Models\SerologyTest;
 use App\Observers\SerologyTestObserver;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (app()->environment('production')) 
+        {
+        URL::forceScheme('https');
+        }
         SerologyTest::observe(SerologyTestObserver::class);
     }
 }
