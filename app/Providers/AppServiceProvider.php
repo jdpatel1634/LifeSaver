@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Support\ServiceProvider;
 use App\Providers\Filament\AdminPanelProvider;
 use App\Models\SerologyTest;
@@ -14,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        Sanctum::ignoreMigrations();
     }
 
     /**
