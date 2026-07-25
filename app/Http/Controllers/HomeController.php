@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BloodGroup;
 use App\Models\BloodUnit;
 use App\Models\Camp;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -28,7 +29,13 @@ class HomeController extends Controller
         $bloodGroups = BloodGroup::orderBy('group_name')->get();
         $searchedBloodGroup = null;
 
-        return view('home', compact('latestCamps', 'availableUnitsCount', 'bloodGroups', 'searchedBloodGroup'));
+        $bloodBanksCount = State::count();
+
+        $campsThisMonthCount = Camp::whereMonth('camp_date', Carbon::now()->month)
+            ->whereYear('camp_date', Carbon::now()->year)
+            ->count();
+
+        return view('home', compact('latestCamps', 'availableUnitsCount', 'bloodGroups', 'searchedBloodGroup', 'bloodBanksCount', 'campsThisMonthCount'));
     }
 
     public function handleSearch(Request $request)
@@ -74,7 +81,13 @@ class HomeController extends Controller
 
         $bloodGroups = BloodGroup::orderBy('group_name')->get();
 
+        $bloodBanksCount = State::count();
+
+        $campsThisMonthCount = Camp::whereMonth('camp_date', Carbon::now()->month)
+            ->whereYear('camp_date', Carbon::now()->year)
+            ->count();
+
         // 4. Return the result to the home view
-        return view('home', compact('latestCamps', 'availableUnitsCount', 'bloodGroups', 'availableUnitsCount', 'searchedBloodGroup'));
+        return view('home', compact('latestCamps', 'availableUnitsCount', 'bloodGroups', 'searchedBloodGroup', 'bloodBanksCount', 'campsThisMonthCount'));
     }
 }
