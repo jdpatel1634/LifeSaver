@@ -27,6 +27,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->brandName('Blood Bank Management System')
+            ->homeUrl('/')
             ->colors([
                 'primary' => Color::Amber,
             ])
