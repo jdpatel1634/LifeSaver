@@ -63,6 +63,39 @@
                             <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
                         </select>
                     </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">
+            Password <span class="text-red-500">*</span>
+        </label>
+
+        <input
+            type="password"
+            name="password"
+            id="password"
+            required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
+        >
+
+        @error('password')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+
+    <div>
+        <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
+            Confirm Password <span class="text-red-500">*</span>
+        </label>
+
+        <input
+            type="password"
+            name="password_confirmation"
+            id="password_confirmation"
+            required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500"
+        >
+    </div>
+</div>
                     <div>
                         <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
                         <input type="date" name="date_of_birth" id="date_of_birth" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('date_of_birth') }}" required>
