@@ -31,7 +31,7 @@ class BloodIssueResource extends Resource
     public static function shouldRegisterNavigation(): bool
     {
         $user = auth()->user();
-        return $user && $user->isAdmin() && !$user->isSuperAdmin();
+        return $user && $user->isAdmin();
     }
 
     

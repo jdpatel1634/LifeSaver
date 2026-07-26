@@ -59,7 +59,7 @@ class BloodRequestResource extends Resource
     public static function shouldRegisterNavigation(): bool
     {
         $user = auth()->user();
-        return $user && $user->isAdmin() && !$user->isSuperAdmin();
+        return $user && $user->isAdmin();
     }
 
     public static function form(Form $form): Form
