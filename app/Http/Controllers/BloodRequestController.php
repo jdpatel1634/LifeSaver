@@ -72,7 +72,7 @@ class BloodRequestController extends Controller
             $user = User::create([
                 'name' => $request->first_name . ' ' . $request->last_name,
                 'email' => $request->email,
-                'password' => Hash::make($password), // Hash the password
+                'password' => Hash::make($request->password),
                 'role' => 'patient',
             ]);
 
