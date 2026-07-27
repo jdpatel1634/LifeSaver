@@ -105,7 +105,7 @@ class BloodRequestController extends Controller
             // For a real application, you would typically use Laravel's built-in password reset functionality.
             // For this example, we'll simulate sending a simple email.
             
-
+            DB::commit(); // Commit the transaction.
             return redirect()->back()->with('success', 'Blood request submitted successfully! You can now log in to your patient dashboard using your email and password.');
 
         } catch (\Exception $e) {
