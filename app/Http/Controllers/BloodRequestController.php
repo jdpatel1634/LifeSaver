@@ -121,7 +121,7 @@ class BloodRequestController extends Controller
 
             DB::commit(); // Commit the transaction.
 
-            return redirect()->back()->with('success', "Blood request submitted successfully! You can now log in to your patient dashboard using your email and password.');
+            return redirect()->back()->with('success', 'Blood request submitted successfully! You can now log in to your patient dashboard using your email and password.');
 
         } catch (\Exception $e) {
             DB::rollBack(); // Rollback the transaction on error.
