@@ -49,6 +49,7 @@ class BloodRequestController extends Controller
             'urgency_level' => 'required|in:routine,urgent,emergency',
             'required_by_date' => 'nullable|date|after_or_equal:today',
             'description' => 'nullable|string',
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         // 2. Check if a user with the given email already exists.
@@ -113,8 +114,6 @@ class BloodRequestController extends Controller
                 'created_at' => Carbon::now(),
             ]);
 
-            $resetLink = url(route('password.reset', ['token' => $token, 'email' => $user->email]));
-
             Mail::raw("Hello " . $user->name . ",\n\nYour blood request has been registered. Please use the following link to set your password and access your patient panel: " . $resetLink . "\n\nThank you!", function ($message) use ($user) {
                 $message->to($user->email)
                         ->subject('Blood Request Registered & Set Your Password');
@@ -122,7 +121,7 @@ class BloodRequestController extends Controller
 
             DB::commit(); // Commit the transaction.
 
-            return redirect()->back()->with('success', 'Blood request registered successfully! A password reset link has been sent to your email to set up your account.');
+            return redirect()->back()->with('success', "Blood request submitted successfully! You can now log in to your patient dashboard using your email and password.');
 
         } catch (\Exception $e) {
             DB::rollBack(); // Rollback the transaction on error.
