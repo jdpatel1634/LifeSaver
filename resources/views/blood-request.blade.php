@@ -82,32 +82,43 @@
         required
     >
 </div>
+                    <div>
+    <label for="gender" class="block text-sm font-medium text-gray-700">
+        Gender <span class="text-red-500">*</span>
+    </label>
+    <select name="gender" id="gender" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
+        <option value="">Select Gender</option>
+        <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
+        <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
+        <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
+    </select>
+</div>
+
+<div>
+    <label for="date_of_birth" class="block text-sm font-medium text-gray-700">
+        Date of Birth <span class="text-red-500">*</span>
+    </label>
+    <input type="date" name="date_of_birth" id="date_of_birth"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500"
+        value="{{ old('date_of_birth') }}" required>
+</div>
+
+<div class="md:col-span-2">
+    <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+    <textarea name="address" id="address" rows="3"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500">{{ old('address') }}</textarea>
+</div>
+
+<div class="md:col-span-2">
+    <label for="hospital_name" class="block text-sm font-medium text-gray-700">
+        Hospital Name <span class="text-red-500">*</span>
+    </label>
+    <input type="text" name="hospital_name" id="hospital_name"
+        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500"
+        value="{{ old('hospital_name') }}" required>
+</div>
                     
-                    <div>
-                        <label for="gender" class="block text-sm font-medium text-gray-700">Gender <span class="text-red-500">*</span></label>
-                        <select name="gender" id="gender" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" required>
-                            <option value="">Select Gender</option>
-                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
-                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female</option>
-                            <option value="other" {{ old('gender') == 'other' ? 'selected' : '' }}>Other</option>
-                        </select>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    
-                    <div>
-                        <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
-                        <input type="date" name="date_of_birth" id="date_of_birth" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('date_of_birth') }}" required>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                        <textarea name="address" id="address" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500">{{ old('address') }}</textarea>
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="hospital_name" class="block text-sm font-medium text-gray-700">Hospital Name <span class="text-red-500">*</span></label>
-                        <input type="text" name="hospital_name" id="hospital_name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-red-500 focus:border-red-500" value="{{ old('hospital_name') }}" required>
-                    </div>
-                </div>
-            </fieldset>
+                               </fieldset>
 
             <!-- Blood Request Section -->
             <fieldset class="border border-gray-300 p-6 rounded-md mb-8">
