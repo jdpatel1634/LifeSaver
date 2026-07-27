@@ -473,7 +473,7 @@
                 <div>
                     <h4 class="text-white font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-red-400 transition">About Us</a></li>
+                        <li><a href="{{ route('about') }}" class="hover:text-red-400 transition">About Us</a></li>
                         <li><a href="#" class="hover:text-red-400 transition">Find Blood</a></li>
                         <li><a href="#" class="hover:text-red-400 transition">Donation Camps</a></li>
                         <li><a href="#" class="hover:text-red-400 transition">FAQs</a></li>
