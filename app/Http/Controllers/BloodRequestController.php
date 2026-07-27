@@ -109,19 +109,9 @@ class BloodRequestController extends Controller
             return redirect()->back()->with('success', 'Blood request submitted successfully! You can now log in to your patient dashboard using your email and password.');
 
         } catch (\Exception $e) {
-    DB::rollBack();
-
-    \Log::error('Blood request submission failed', [
-        'message' => $e->getMessage(),
-        'file' => $e->getFile(),
-        'line' => $e->getLine(),
-    ]);
-
-    return redirect()->back()
-        ->withInput()
-        ->withErrors([
-            'error' => $e->getMessage(),
-        ]);
-}
+     DB::rollBack(); // Rollback the transaction on error.
+            \Log::info($e);
+            return redirect()->back()->withInput()->withErrors(['error' => 'An error occurred while processing your request. Please try again.']);
+        }
     }
 }
