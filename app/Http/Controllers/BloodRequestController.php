@@ -9,8 +9,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class BloodRequestController extends Controller
@@ -71,7 +69,6 @@ class BloodRequestController extends Controller
 
         try {
             // 4. Create a new User record with 'patient' role.
-            $password = Str::random(12); // Generate a random password for the user
             $user = User::create([
                 'name' => $request->first_name . ' ' . $request->last_name,
                 'email' => $request->email,
@@ -107,19 +104,7 @@ class BloodRequestController extends Controller
             // 7. Send password reset link to the patient's email.
             // For a real application, you would typically use Laravel's built-in password reset functionality.
             // For this example, we'll simulate sending a simple email.
-            $token = Str::random(60);
-            DB::table('password_reset_tokens')->insert([
-                'email' => $user->email,
-                'token' => Hash::make($token),
-                'created_at' => Carbon::now(),
-            ]);
-
-            Mail::raw("Hello " . $user->name . ",\n\nYour blood request has been registered. Please use the following link to set your password and access your patient panel: " . $resetLink . "\n\nThank you!", function ($message) use ($user) {
-                $message->to($user->email)
-                        ->subject('Blood Request Registered & Set Your Password');
-            });
-
-            DB::commit(); // Commit the transaction.
+            
 
             return redirect()->back()->with('success', 'Blood request submitted successfully! You can now log in to your patient dashboard using your email and password.');
 
