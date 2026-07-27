@@ -67,7 +67,6 @@
                         @endif
                     @else
                         <a href="/login" class="px-5 py-2 text-red-600 font-semibold hover:bg-red-50 rounded-lg transition">Login</a>
-                        <a href="/request-blood" class="px-5 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition shadow-md">Register</a>
                     @endif
                 </div>
             </div>
