@@ -34,4 +34,26 @@ Route::post('/request-blood', [App\Http\Controllers\BloodRequestController::clas
 Route::get('/register/donor', [App\Http\Controllers\DonorRegistrationController::class, 'showRegistrationForm'])->name('donor.register.form');
 Route::post('/register/donor', [App\Http\Controllers\DonorRegistrationController::class, 'registerDonor'])->name('donor.register.submit');
 
+Route::view('/about-us', 'pages.about')->name('about');
+
+Route::view('/find-blood-near-you', 'pages.find-blood')->name('blood.find');
+
+Route::view('/donation-camps', 'pages.donation-camps')->name('donation.camps');
+
+Route::view('/faqs', 'pages.faqs')->name('faqs');
+
+Route::view('/eligibility-checker', 'pages.eligibility-checker')->name('eligibility.checker');
+
+Route::view('/donation-process', 'pages.donation-process')->name('donation.process');
+
+Route::view('/health-guidelines', 'pages.health-guidelines')->name('health.guidelines');
+
+Route::view('/privacy-policy', 'pages.privacy-policy')->name('privacy.policy');
+
+Route::view('/donation-types/whole-blood', 'pages.donation-types.whole-blood')->name('donation.whole-blood');
+
+Route::view('/donation-types/platelet', 'pages.donation-types.platelet')->name('donation.platelet');
+
+Route::view('/donation-types/plasma', 'pages.donation-types.plasma')->name('donation.plasma');
+
 require __DIR__.'/auth.php';
