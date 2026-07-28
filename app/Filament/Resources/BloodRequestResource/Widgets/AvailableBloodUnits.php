@@ -29,20 +29,27 @@ class AvailableBloodUnits extends BaseWidget
     {
         return $table
             ->query(function (): Builder {
-                $requestBloodGroup = $this->record->bloodGroup?->group_name;
+    $requestBloodGroup = $this->record->bloodGroup?->group_name;
 
-                $compatibleGroups = BloodCompatibilityFactory::compatibleDonorGroups($requestBloodGroup ?? '');
+    $compatibleGroups = BloodCompatibilityFactory::compatibleDonorGroups($requestBloodGroup ?? '');
 
-                $compatibleBloodGroupIds = BloodGroup::query()
-                    ->whereIn('group_name', $compatibleGroups)
-                    ->pluck('id');
+    $compatibleBloodGroupIds = BloodGroup::query()
+        ->get()
+        ->filter(function (BloodGroup $bloodGroup) use ($compatibleGroups): bool {
+            return in_array(
+                BloodCompatibilityFactory::normalizeBloodGroup($bloodGroup->group_name),
+                $compatibleGroups,
+                true
+            );
+        })
+        ->pluck('id');
 
-                return BloodUnit::query()
-                    ->with('bloodGroup')
-                    ->whereIn('blood_group_id', $compatibleBloodGroupIds)
-                    ->where('status', 'ready_for_issue')
-                    ->whereDate('expiry_date', '>', Carbon::now());
-            })
+    return BloodUnit::query()
+        ->with('bloodGroup')
+        ->whereIn('blood_group_id', $compatibleBloodGroupIds)
+        ->where('status', 'ready_for_issue')
+        ->whereDate('expiry_date', '>', Carbon::now());
+})
             ->columns([
                 TextColumn::make('unique_bag_id')
                     ->label('Unique Bag ID'),
@@ -52,26 +59,25 @@ class AvailableBloodUnits extends BaseWidget
                     ->badge(),
 
                 TextColumn::make('compatibility')
-                    ->label('Compatibility')
-                    ->getStateUsing(function (BloodUnit $record): string {
-                        $requestBloodGroup = $this->record->bloodGroup?->group_name;
-                        $unitBloodGroup = $record->bloodGroup?->group_name;
+    ->label('Compatibility')
+    ->getStateUsing(function (BloodUnit $record): string {
+        $requestBloodGroup = $this->record->bloodGroup?->group_name;
+        $unitBloodGroup = $record->bloodGroup?->group_name;
 
-                        if (! $requestBloodGroup || ! $unitBloodGroup) {
-                            return 'Unknown';
-                        }
+        if (! $requestBloodGroup || ! $unitBloodGroup) {
+            return 'Unknown';
+        }
 
-                        return BloodCompatibilityFactory::canDonateTo($unitBloodGroup, $requestBloodGroup)
-                            ? 'Compatible'
-                            : 'Not Compatible';
-                    })
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'Compatible' => 'success',
-                        'Not Compatible' => 'danger',
-                        default => 'gray',
-                    }),
-
+        return BloodCompatibilityFactory::canDonateTo($unitBloodGroup, $requestBloodGroup)
+            ? 'Compatible'
+            : 'Not Compatible';
+    })
+    ->badge()
+    ->color(fn (string $state): string => match ($state) {
+        'Compatible' => 'success',
+        'Not Compatible' => 'danger',
+        default => 'gray',
+    }),
                 TextColumn::make('component_type')
                     ->label('Component Type'),
 
