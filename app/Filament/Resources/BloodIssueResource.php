@@ -40,10 +40,24 @@ class BloodIssueResource extends Resource
         return $form
             ->schema([
                 Select::make('blood_request_id')
-                    ->label('Blood Request')
-                    ->options(BloodRequest::all()->pluck('description', 'id'))
-                    ->searchable()
-                    ->nullable(),
+    ->label('Blood Request')
+    ->options(
+        \App\Models\BloodRequest::query()
+            ->with(['patient', 'bloodGroup'])
+            ->get()
+            ->mapWithKeys(function ($request) {
+                $patientName = $request->patient?->first_name ?? 'Unknown Patient';
+                $bloodGroup = $request->bloodGroup?->group_name ?? 'Unknown Blood Group';
+
+                return [
+                    $request->id => 'REQ-' . str_pad($request->id, 4, '0', STR_PAD_LEFT)
+                        . ' - ' . $patientName
+                        . ' - ' . $bloodGroup,
+                ];
+            })
+    )
+    ->searchable()
+    ->required(),
                 Select::make('patient_id')
                     ->label('Patient')
                     ->options(Patient::all()->pluck('first_name', 'id'))
