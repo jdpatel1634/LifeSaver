@@ -14,9 +14,10 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $latestCamps = Camp::where('status', 'active')
-            ->orderBy('camp_date', 'desc')
-            ->get();
+        $latestCamps = Camp::where('status', 'upcoming')
+    ->whereDate('camp_date', '>=', Carbon::today())
+    ->orderBy('camp_date', 'asc')
+    ->get();
 
         $availableUnitsCount = BloodUnit::where('status', 'ready_for_issue')
             ->where('serology_test_status', 'passed')
@@ -74,10 +75,11 @@ class HomeController extends Controller
         $searchedBloodGroup = BloodGroup::find($bloodGroupId);
 
         // Fetch latest camps and all blood groups again for the home page
-        $latestCamps = Camp::where('status', 'active')
-            ->orderBy('camp_date', 'desc')
-            ->limit(3)
-            ->get();
+       $latestCamps = Camp::where('status', 'upcoming')
+    ->whereDate('camp_date', '>=', Carbon::today())
+    ->orderBy('camp_date', 'asc')
+    ->limit(3)
+    ->get();
 
         $bloodGroups = BloodGroup::orderBy('group_name')->get();
 
