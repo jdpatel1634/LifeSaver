@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\BloodRequestResource\Widgets;
 
+use App\Factories\BloodCompatibilityFactory;
+use App\Models\BloodGroup;
 use App\Models\BloodUnit;
 use App\Models\ReservedUnit;
 use Carbon\Carbon;
@@ -26,18 +28,59 @@ class AvailableBloodUnits extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            // The query now uses $this->record, which is the correct BloodRequest model
-            ->query(
-                BloodUnit::query()
-                    ->where('blood_group_id', $this->record->blood_group_id)
+            ->query(function (): Builder {
+                $requestBloodGroup = $this->record->bloodGroup?->group_name;
+
+                $compatibleGroups = BloodCompatibilityFactory::compatibleDonorGroups($requestBloodGroup ?? '');
+
+                $compatibleBloodGroupIds = BloodGroup::query()
+                    ->whereIn('group_name', $compatibleGroups)
+                    ->pluck('id');
+
+                return BloodUnit::query()
+                    ->with('bloodGroup')
+                    ->whereIn('blood_group_id', $compatibleBloodGroupIds)
                     ->where('status', 'ready_for_issue')
-                    ->whereDate('expiry_date', '>', Carbon::now())
-            )
+                    ->whereDate('expiry_date', '>', Carbon::now());
+            })
             ->columns([
-                TextColumn::make('unique_bag_id')->label('Unique Bag ID'),
-                TextColumn::make('component_type')->label('Component Type'),
-                TextColumn::make('expiry_date')->label('Expiry Date')->date(),
-                TextColumn::make('volume_ml')->label('Volume (ml)'),
+                TextColumn::make('unique_bag_id')
+                    ->label('Unique Bag ID'),
+
+                TextColumn::make('bloodGroup.group_name')
+                    ->label('Blood Group')
+                    ->badge(),
+
+                TextColumn::make('compatibility')
+                    ->label('Compatibility')
+                    ->getStateUsing(function (BloodUnit $record): string {
+                        $requestBloodGroup = $this->record->bloodGroup?->group_name;
+                        $unitBloodGroup = $record->bloodGroup?->group_name;
+
+                        if (! $requestBloodGroup || ! $unitBloodGroup) {
+                            return 'Unknown';
+                        }
+
+                        return BloodCompatibilityFactory::canDonateTo($unitBloodGroup, $requestBloodGroup)
+                            ? 'Compatible'
+                            : 'Not Compatible';
+                    })
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Compatible' => 'success',
+                        'Not Compatible' => 'danger',
+                        default => 'gray',
+                    }),
+
+                TextColumn::make('component_type')
+                    ->label('Component Type'),
+
+                TextColumn::make('expiry_date')
+                    ->label('Expiry Date')
+                    ->date(),
+
+                TextColumn::make('volume_ml')
+                    ->label('Volume (ml)'),
             ])
             ->actions([
                 TableAction::make('reserve')
@@ -45,9 +88,8 @@ class AvailableBloodUnits extends BaseWidget
                     ->icon('heroicon-o-bookmark')
                     ->color('warning')
                     ->requiresConfirmation()
-                    ->action(function (BloodUnit $record) { // This $record is the BloodUnit
+                    ->action(function (BloodUnit $record) {
                         DB::transaction(function () use ($record) {
-                            // Use $this->record to get the owner BloodRequest
                             ReservedUnit::create([
                                 'blood_unit_id' => $record->id,
                                 'patient_id' => $this->record->patient_id,
@@ -69,8 +111,6 @@ class AvailableBloodUnits extends BaseWidget
                             $this->dispatch('refreshWidgets');
                         });
                     })
-                    // This logic can be simplified or removed as the table query already handles this
-                    // But it's good for disabling the button immediately
                     ->disabled(fn(BloodUnit $record) => $record->status !== 'ready_for_issue'),
             ]);
     }
