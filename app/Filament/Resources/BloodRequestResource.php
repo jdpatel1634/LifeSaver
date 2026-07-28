@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\BloodRequestResource\Pages;
 use App\Filament\Resources\BloodRequestResource\RelationManagers;
+use App\Factories\BloodCompatibilityFactory;
 use App\Models\BloodGroup;
 use App\Models\BloodRequest;
 use App\Models\Patient;
@@ -134,6 +135,23 @@ class BloodRequestResource extends Resource
                     ->label('Blood Group')
                     ->searchable()
                     ->sortable(),
+                 TextColumn::make('compatible_donor_groups')
+    ->label('Compatible Donors')
+    ->getStateUsing(function (BloodRequest $record): string {
+        $bloodGroup = $record->bloodGroup?->group_name;
+
+        if (! $bloodGroup) {
+            return 'Not available';
+        }
+
+        $compatibleGroups = BloodCompatibilityFactory::compatibleDonorGroups($bloodGroup);
+
+        return empty($compatibleGroups)
+            ? 'No match found'
+            : implode(', ', $compatibleGroups);
+    })
+    ->wrap(),
+                
                 TextColumn::make('units_requested')
                     ->label('Units')
                     ->sortable(),
