@@ -92,7 +92,7 @@ class ReservedUnitResource extends Resource
                 TextColumn::make('bloodRequest.id')
     ->label('Request ID')
     ->formatStateUsing(fn ($state) => 'REQ-' . str_pad($state, 4, '0', STR_PAD_LEFT))
-    ->sortable();
+    ->sortable(),
                 TextColumn::make('reservedBy.name')
                     ->label('Reserved By')
                     ->searchable()
