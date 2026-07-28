@@ -32,9 +32,12 @@ class BloodCompatibilityFactory
         );
     }
 
-    private static function normalizeBloodGroup(string $bloodGroup): string
+    public static function normalizeBloodGroup(string $bloodGroup): string
     {
         $bloodGroup = strtoupper(trim($bloodGroup));
+
+        // Normalize different dash/minus symbols.
+        $bloodGroup = str_replace(['−', '–', '—'], '-', $bloodGroup);
 
         return match ($bloodGroup) {
             'A POSITIVE', 'A_POSITIVE', 'APOSITIVE', 'A PLUS', 'A+' => 'A+',
