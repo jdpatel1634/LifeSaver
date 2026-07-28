@@ -59,24 +59,51 @@ class BloodIssueResource extends Resource
     ->searchable()
     ->required(),
                 Select::make('patient_id')
-                    ->label('Patient')
-                    ->options(Patient::all()->pluck('first_name', 'id'))
-                    ->searchable()
-                    ->required(),
+    ->label('Patient')
+    ->options(
+        \App\Models\Patient::query()
+            ->get()
+            ->mapWithKeys(function ($patient) {
+                $name = trim(($patient->first_name ?? '') . ' ' . ($patient->last_name ?? ''));
+
+                return [
+                    $patient->id => $name ?: 'Patient #' . $patient->id,
+                ];
+            })
+    )
+    ->searchable()
+    ->required(),
                 Select::make('blood_unit_id')
-                    ->label('Blood Unit')
-                    ->options(BloodUnit::where('status', 'ready_for_issue')->pluck('unique_bag_id', 'id'))
-                    ->searchable()
-                    ->required()
-                    ->hiddenOn('edit'),
+    ->label('Blood Unit')
+    ->options(
+        \App\Models\BloodUnit::query()
+            ->with(['bloodGroup', 'donor'])
+            ->get()
+            ->mapWithKeys(function ($unit) {
+                $bagId = $unit->unique_bag_id ?? 'Unit #' . $unit->id;
+                $bloodGroup = $unit->bloodGroup?->group_name ?? 'Unknown Blood Group';
+                $donorName = $unit->donor?->first_name ?? 'Unknown Donor';
+
+                return [
+                    $unit->id => $bagId . ' - ' . $bloodGroup . ' - ' . $donorName,
+                ];
+            })
+    )
+    ->searchable()
+    ->required(),
                 DateTimePicker::make('issue_date')
                     ->native(false)
                     ->required(),
                 Select::make('issued_by_user_id')
-                    ->label('Issued By')
-                    ->options(User::where('role', 'admin')->pluck('name', 'id'))
-                    ->searchable()
-                    ->required(),
+    ->label('Issued By')
+    ->options(
+        \App\Models\User::query()
+            ->get()
+            ->mapWithKeys(fn ($user) => [
+                $user->id => $user->name ?? $user->email ?? 'User #' . $user->id,
+            ])
+    )
+    ->searchable(),
                 Select::make('cross_match_status')
                     ->options([
                         'pending' => 'Pending',
