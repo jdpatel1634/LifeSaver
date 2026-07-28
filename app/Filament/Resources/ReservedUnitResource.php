@@ -89,10 +89,9 @@ class ReservedUnitResource extends Resource
                     ->label('Patient Name')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('bloodRequest.description')
-                    ->label('Request ID')
-                    ->searchable()
-                    ->sortable(),
+                TextColumn::make('blood_request_id')
+    ->label('Request ID')
+    ->sortable();
                 TextColumn::make('reservedBy.name')
                     ->label('Reserved By')
                     ->searchable()
